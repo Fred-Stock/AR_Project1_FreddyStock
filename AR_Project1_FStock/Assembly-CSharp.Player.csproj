@@ -53,10 +53,12 @@
     <UnityVersion>2020.3.16f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Tank.cs" />
     <Compile Include="Assets\Scripts\Thoughts.cs" />
     <Compile Include="Assets\Scripts\TeamManager.cs" />
     <Compile Include="Assets\Scripts\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Tank.cs" />
+    <Compile Include="Assets\Scripts\TeamGoal.cs" />
+    <Compile Include="Assets\Scripts\TankHitbox.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

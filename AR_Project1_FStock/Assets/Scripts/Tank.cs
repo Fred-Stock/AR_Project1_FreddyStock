@@ -12,9 +12,16 @@ public class Tank : MonoBehaviour
     [SerializeField] private float moveSpeed;
 
     [SerializeField] private int team;
+    private GameObject goal;
+
     private GameObject teamGoal;
     private List<GameObject> friendlyTanks; //make sure its passed as refrence not value
     private List<GameObject> enemyTanks;
+    
+    private float obstacleDist = .3f;
+
+    private float obstacleWeight = 1f;
+    private float goalWeight = 3f;
 
     private float shootCooldown = 1f;
     private float cooldownTimer = int.MaxValue;
@@ -30,18 +37,22 @@ public class Tank : MonoBehaviour
             TeamManager.team1Tanks.Add(gameObject);
             friendlyTanks = TeamManager.team1Tanks;
             enemyTanks = TeamManager.team2Tanks;
+            teamGoal = TeamManager.getTeam1Goal();
         }
         else
         {
             TeamManager.team2Tanks.Add(gameObject);
             friendlyTanks = TeamManager.team2Tanks;
             enemyTanks = TeamManager.team1Tanks;
+            teamGoal = TeamManager.getTeam2Goal();
         }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+
+
         if(cooldownTimer >= shootCooldown)
         {
             GameObject possibleEnemy = EnemyInSight();
@@ -54,6 +65,12 @@ public class Tank : MonoBehaviour
         {
             cooldownTimer += Time.deltaTime;
         }
+
+        rBody.AddForce(Seek(teamGoal.transform.position), ForceMode.Force);
+        transform.LookAt(transform.position + rBody.velocity);
+        Debug.DrawLine(transform.position, transform.position + rBody.velocity, Color.black);
+
+       
         
     }
 
@@ -96,33 +113,67 @@ public class Tank : MonoBehaviour
         target.y = transform.position.y; //ensure tanks dont start flying
 
         Vector3 desireDir = target - transform.position;
+        Debug.Log(desireDir);
         desireDir -= rBody.velocity;
-        return desireDir;
+        return desireDir.normalized * goalWeight;
     }
 
     private Vector3 Flee(Vector3 scaryTarget) {
 
-        return Seek(scaryTarget);
+        return -Seek(scaryTarget);
 
+    }
+
+    private Vector3 NavigateObstacles()
+    {
+        RaycastHit fHit, lHit, rHit;
+        bool fOb, lOb, rOb;
+
+        fOb = Physics.Raycast(new Ray(bColl.center, transform.forward), out fHit, obstacleDist);
+        lOb = Physics.Raycast(new Ray(bColl.center, transform.forward - transform.right ), out lHit, obstacleDist);
+        rOb = Physics.Raycast(new Ray(bColl.center, transform.forward + transform.right), out rHit, obstacleDist);
+
+        Debug.DrawLine(transform.position, transform.position + transform.forward, Color.yellow);
+        Debug.DrawLine(transform.position, transform.position + (transform.forward + transform.right), Color.yellow);
+        Debug.DrawLine(transform.position, transform.position + (transform.forward - transform.right), Color.yellow);
+
+        Vector3 result = Vector3.zero;
+
+        if (fOb)
+        {
+            result -= transform.forward;
+        }
+        if (lOb)
+        {
+            result += transform.right;
+        }
+        if (rOb)
+        {
+            result -= transform.right;
+        }
+
+        if (result.sqrMagnitude != 0)
+        {
+            result.Normalize();
+        }
+
+        return result * obstacleWeight;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         //check for bullet collision
         //Destroy if enemy
-        if (collision.gameObject.CompareTag("bullet"))
-        {
 
-            if (collision.gameObject.GetComponent<Bullet>().getTeam() != team)
-            {
-                TeamManager.RemoveTank(gameObject);
-                Destroy(gameObject);
-                Destroy(collision.gameObject);
-            }
+        if (!collision.gameObject.CompareTag("bullet"))
+        {
+            rBody.AddForce(Flee(collision.GetContact(0).point)*obstacleWeight);
         }
+
     }
 
-    private void AvoidOtherTanks() { 
-        //make sure tanks dont run into each other
+    public int GetTeam()
+    {
+        return team;
     }
 }

@@ -7,6 +7,8 @@ public static class TeamManager
     public static List<GameObject> team1Tanks = new List<GameObject>();
     public static List<GameObject> team2Tanks = new List<GameObject>();
 
+    public static GameObject team1Goal, team2Goal;
+
     public static void RemoveTank(GameObject tank)
     {
         //since remove does not through an error if the element does not exist
@@ -14,5 +16,11 @@ public static class TeamManager
         team1Tanks.Remove(tank);
         team2Tanks.Remove(tank);
     }
+
+    public static void SetTeam1Goal(GameObject goal1) { team1Goal = goal1; }
+    public static void SetTeam2Goal(GameObject goal2) { team2Goal = goal2; }
+
+    public static GameObject getTeam1Goal() { return team1Goal; }
+    public static GameObject getTeam2Goal() { return team2Goal; }
 
 }
