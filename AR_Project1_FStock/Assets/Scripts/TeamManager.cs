@@ -20,11 +20,15 @@ public static class TeamManager
         team2Tanks.Remove(tank);
     }
 
+    public static void RemoveRunner(GameObject runner) { runners.Remove(runner); }
+
     public static void SetTeam1Goal(GameObject goal1) { team1Goal = goal1; }
     public static void SetTeam2Goal(GameObject goal2) { team2Goal = goal2; }
 
     public static void SetSeeker(GameObject newSeeker) { seeker = newSeeker; }
     public static GameObject GetSeeker() { return seeker; }
+
+    public static List<GameObject> GetRunners() { return runners; }
 
     public static GameObject getTeam1Goal() { return team1Goal; }
     public static GameObject getTeam2Goal() { return team2Goal; }

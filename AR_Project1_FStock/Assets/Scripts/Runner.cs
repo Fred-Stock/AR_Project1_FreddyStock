@@ -36,9 +36,7 @@ public class Runner : Agent
     void FixedUpdate()
     {
 
-        rBody.AddForce(Seek(teamGoal.transform.position)*goalWeight, ForceMode.Force);
-        transform.LookAt(transform.position + rBody.velocity);
-        Debug.DrawLine(transform.position, transform.position + rBody.velocity, Color.black);
+        //rBody.AddForce(Seek(teamGoal.transform.position)*goalWeight, ForceMode.Force);
         if(wanderTimer > wanderInterval)
         {
             wanderTimer -= wanderInterval;
@@ -49,6 +47,9 @@ public class Runner : Agent
         {
             rBody.AddForce(Avoid(TeamManager.GetSeeker()) * scareWeight);
         }
+        transform.LookAt(transform.position + rBody.velocity);
+        Debug.DrawLine(transform.position, transform.position + rBody.velocity, Color.black);
+
 
     }
 
@@ -62,5 +63,13 @@ public class Runner : Agent
         return false;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.GetComponent<Seeker>() != null)
+        {
+            TeamManager.RemoveRunner(gameObject);
+            Destroy(gameObject);
+        }
+    }
 
 }

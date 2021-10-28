@@ -43,60 +43,80 @@ public class Seeker : Agent
     {
 
 
-        if (cooldownTimer >= shootCooldown)
-        {
-            GameObject possibleEnemy = EnemyInSight();
-            if (possibleEnemy != null)
-            {
-                Shoot(possibleEnemy);
-            }
-        }
-        else
-        {
-            cooldownTimer += Time.deltaTime;
-        }
+        //if (cooldownTimer >= shootCooldown)
+        //{
+        //    GameObject possibleEnemy = EnemyInSight();
+        //    if (possibleEnemy != null)
+        //    {
+        //        Shoot(possibleEnemy);
+        //    }
+        //}
+        //else
+        //{
+        //    cooldownTimer += Time.deltaTime;
+        //}
 
-        rBody.AddForce(Seek(teamGoal.transform.position)*goalWeight, ForceMode.Force);
+        //rBody.AddForce(Seek(teamGoal.transform.position)*goalWeight, ForceMode.Force);
+        rBody.AddForce(Follow(FindClosestRunner()), ForceMode.Force);
+
         transform.LookAt(transform.position + rBody.velocity);
         Debug.DrawLine(transform.position, transform.position + rBody.velocity, Color.black);
 
     }
 
-    private GameObject EnemyInSight()
+    private GameObject FindClosestRunner()
     {
-        RaycastHit hit;
-        //should make it so the barrel raycast doesnt hit its own barrel
-        Color DebugColor = Color.red;
-        if (team == 2) { DebugColor = Color.blue; }
-        Debug.DrawRay(turretBarrel.transform.position, -turretBarrel.transform.up, DebugColor);
-        if (!Physics.Raycast(new Ray(turretBarrel.transform.position, -turretBarrel.transform.up), out hit))
+        float minDist = float.MaxValue;
+
+        GameObject clostestRunner = null;
+        for(int i = 0; i < TeamManager.GetRunners().Count; i++)
         {
-            return null;
-        }
-        else
-        {
-            Debug.Log(gameObject.name + " " + hit.collider.gameObject.name);
-        }
-        if (enemyTanks.IndexOf(hit.collider.gameObject) > -1)
-        {
-            return hit.collider.gameObject;
+            float sqrDist = (TeamManager.GetRunners()[i].transform.position - transform.position).sqrMagnitude;
+            if (sqrDist < minDist)
+            {
+                minDist = sqrDist;
+                clostestRunner = TeamManager.GetRunners()[i];
+            }    
         }
 
-        return null;
+        return clostestRunner;
     }
 
-    private void Shoot(GameObject Enemy)
-    {
+    //private GameObject EnemyInSight()
+    //{
+    //    RaycastHit hit;
+    //    //should make it so the barrel raycast doesnt hit its own barrel
+    //    Color DebugColor = Color.red;
+    //    if (team == 2) { DebugColor = Color.blue; }
+    //    Debug.DrawRay(turretBarrel.transform.position, -turretBarrel.transform.up, DebugColor);
+    //    if (!Physics.Raycast(new Ray(turretBarrel.transform.position, -turretBarrel.transform.up), out hit))
+    //    {
+    //        return null;
+    //    }
+    //    else
+    //    {
+    //        Debug.Log(gameObject.name + " " + hit.collider.gameObject.name);
+    //    }
+    //    if (enemyTanks.IndexOf(hit.collider.gameObject) > -1)
+    //    {
+    //        return hit.collider.gameObject;
+    //    }
 
-        Vector3 targetLoc = Enemy.transform.position;
-        targetLoc.y = 0;// bColl.center.y; //all tanks should have the same height
+    //    return null;
+    //}
 
-        //turret.transform.LookAt(targetLoc); should already be looking if this method is being called
-        GameObject tempBullet = Instantiate(bullet, turretBarrel.transform.position, new Quaternion());
-        tempBullet.GetComponent<Bullet>().Shoot(targetLoc, team);
+    //private void Shoot(GameObject Enemy)
+    //{
 
-        cooldownTimer = 0;
-    }
+    //    Vector3 targetLoc = Enemy.transform.position;
+    //    targetLoc.y = 0;// bColl.center.y; //all tanks should have the same height
+
+    //    //turret.transform.LookAt(targetLoc); should already be looking if this method is being called
+    //    GameObject tempBullet = Instantiate(bullet, turretBarrel.transform.position, new Quaternion());
+    //    tempBullet.GetComponent<Bullet>().Shoot(targetLoc, team);
+
+    //    cooldownTimer = 0;
+    //}
     
 
 

@@ -6,9 +6,6 @@ public class Agent : MonoBehaviour
 {
     protected Rigidbody rBody;
     protected BoxCollider bColl;
-    [SerializeField] protected GameObject bullet;
-    [SerializeField] protected GameObject turret;
-    [SerializeField] protected GameObject turretBarrel;
     [SerializeField] protected float moveSpeed;
 
     [SerializeField] protected int team;
@@ -23,8 +20,8 @@ public class Agent : MonoBehaviour
     protected float obstacleWeight = 1f;
     protected float goalWeight = 3f;
 
-    protected float wanderDist = .1f;
-    protected float wanderInterval = 3f;
+    protected float wanderDist = .3f;
+    protected float wanderInterval = 5f;
     protected float wanderTimer = 0f;
     protected float wanderWeight = 3f;
 
@@ -75,6 +72,7 @@ public class Agent : MonoBehaviour
         float newAngle = curAngle + Random.Range(Mathf.Deg2Rad * -45, Mathf.Deg2Rad * 45);
         Vector3 wanderPoint = new Vector3(Mathf.Cos(newAngle), transform.position.y, Mathf.Sin(newAngle));
         wanderPoint *= wanderDist;
+        wanderPoint += transform.position;
 
         return Seek(wanderPoint);
     }
