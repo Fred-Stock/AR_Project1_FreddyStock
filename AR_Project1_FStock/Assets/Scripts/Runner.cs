@@ -14,6 +14,9 @@ public class Runner : Agent
     protected override void OnEnable()
     {
         base.OnEnable();
+        transform.rotation = Random.rotation;
+
+        maxSpeed = .1f;
         TeamManager.runners.Add(gameObject);
         wanderVec = Wander();
         //if (team == 1)
@@ -35,26 +38,42 @@ public class Runner : Agent
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        Vector3 forceVec = Vector3.zero;
         //rBody.AddForce(Seek(teamGoal.transform.position)*goalWeight, ForceMode.Force);
-        if(wanderTimer > wanderInterval)
-        {
-            wanderTimer -= wanderInterval;
-            wanderVec = Wander();
-        }
-        rBody.AddForce(Wander() * wanderWeight, ForceMode.Force);
+
+        wanderVec = Wander();
+
+        forceVec += wanderVec*wanderWeight;
+
+
+
         if (NearSeeker())
         {
-            rBody.AddForce(Avoid(TeamManager.GetSeeker()) * scareWeight);
+            forceVec += Avoid(TeamManager.GetSeeker())*scareWeight;
         }
+
         transform.LookAt(transform.position + rBody.velocity);
-        Debug.DrawLine(transform.position, transform.position + rBody.velocity, Color.black);
+        //Debug.DrawLine(transform.position, transform.position + rBody.velocity, Color.black);
+        //Debug.DrawLine(transform.position, wanderVec + transform.position, Color.blue);
+        //Debug.DrawLine(transform.position, wanderVec, Color.green);
+        rBody.AddForce(forceVec, ForceMode.Force);
 
+        float overSpeed = rBody.velocity.magnitude - maxSpeed;
+        if (overSpeed > 0)
+        {
+            rBody.AddForce(-rBody.velocity.normalized * (overSpeed), ForceMode.VelocityChange);
+        }
 
+        if(!Physics.Raycast(transform.position, Vector3.down))//, out hit))
+        {
+            rBody.velocity = -rBody.velocity;
+        }
+        
     }
 
     private bool NearSeeker()
     {
+        if(TeamManager.GetSeeker() == null) { return false; }
         if ((TeamManager.GetSeeker().transform.position - transform.position).sqrMagnitude < scareDist * scareDist)
         {
             return true;

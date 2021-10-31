@@ -1,3 +1,4 @@
+-a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PlayerScriptAssemblies\Assembly-CSharp.dll"
 -a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PlayerScriptAssemblies\UnityEngine.TestRunner.dll"
 -a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PlayerScriptAssemblies\Unity.Timeline.dll"
 -a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PlayerScriptAssemblies\Unity.TextMeshPro.dll"
@@ -11,6 +12,7 @@
 -a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PlayerScriptAssemblies\Unity.XR.ARCore.dll"
 -a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PlayerScriptAssemblies\Unity.XR.ARSubsystems.dll"
 -a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PlayerScriptAssemblies\Unity.XR.ARFoundation.dll"
+-a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PlayerScriptAssemblies\LunarConsole.dll"
 -a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\AOT\Newtonsoft.Json.dll"
 -a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Portable\Newtonsoft.Json.dll"
 -a="C:\Users\Diane\Documents\GitHub\AR_Project1_FreddyStock\AR_Project1_FStock\Library\PackageCache\com.unity.nuget.newtonsoft-json@2.0.0\Runtime\Newtonsoft.Json.dll"

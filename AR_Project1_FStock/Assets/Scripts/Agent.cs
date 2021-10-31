@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Agent : MonoBehaviour
 {
+    //NEED A METHOD TO STAY ON PLANE - PRIMARILY STEER AWAY FROM IT
+
     protected Rigidbody rBody;
     protected BoxCollider bColl;
     [SerializeField] protected float moveSpeed;
@@ -12,7 +14,7 @@ public class Agent : MonoBehaviour
     protected GameObject goal;
 
     protected GameObject teamGoal;
-    protected List<GameObject> friendlyTanks; //make sure its passed as refrence not value
+    protected List<GameObject> friendlyTanks; 
     protected List<GameObject> enemyTanks;
 
     protected float obstacleDist = .3f;
@@ -21,12 +23,16 @@ public class Agent : MonoBehaviour
     protected float goalWeight = 3f;
 
     protected float wanderDist = .3f;
-    protected float wanderInterval = 5f;
-    protected float wanderTimer = 0f;
+    protected float wanderInterval = .25f;
+    protected float wanderTimer;
     protected float wanderWeight = 3f;
+    protected Vector3 wanderPoint;
+
+    protected float maxSpeed;
 
     protected virtual void OnEnable()
     {
+        wanderTimer = wanderInterval;//equal to wanderInterval so that the first call of wander will return a vector
         rBody = GetComponent<Rigidbody>();
         bColl = GetComponent<BoxCollider>();
     }
@@ -43,14 +49,18 @@ public class Agent : MonoBehaviour
         target.y = transform.position.y; //ensure tanks dont start flying
 
         Vector3 desireDir = target - transform.position;
-        Debug.Log(desireDir);
+        //Debug.Log(desireDir);
+        desireDir = desireDir.normalized * maxSpeed;
         desireDir -= rBody.velocity;
         return desireDir.normalized;
     }
 
     protected Vector3 Follow(GameObject targetObj)
     {
-        Vector3 tarLead = targetObj.transform.forward * targetObj.GetComponent<Rigidbody>().velocity.magnitude;
+        float distToTarget = (targetObj.transform.position - transform.position).magnitude;
+        float targetVel = targetObj.GetComponent<Rigidbody>().velocity.magnitude;
+
+        Vector3 tarLead = targetObj.transform.forward * Mathf.Min(distToTarget, targetVel);
         return Seek(targetObj.transform.position + tarLead);
     }
 
@@ -65,16 +75,22 @@ public class Agent : MonoBehaviour
         return -Follow(scaryObj);
     }
 
+    
     protected Vector3 Wander()
     {
-        float curAngle = Mathf.Atan2(rBody.velocity.z, rBody.velocity.x);
 
-        float newAngle = curAngle + Random.Range(Mathf.Deg2Rad * -45, Mathf.Deg2Rad * 45);
-        Vector3 wanderPoint = new Vector3(Mathf.Cos(newAngle), transform.position.y, Mathf.Sin(newAngle));
-        wanderPoint *= wanderDist;
-        wanderPoint += transform.position;
+        if(wanderTimer > wanderInterval)
+        {
+            float curAngle = Mathf.Atan2(transform.forward.z, transform.forward.x);
 
-        return Seek(wanderPoint);
+            float newAngle = curAngle + Random.Range(Mathf.Deg2Rad * -5, Mathf.Deg2Rad * 5);
+            wanderPoint = new Vector3(Mathf.Cos(newAngle), 0, Mathf.Sin(newAngle));
+            wanderPoint *= wanderDist;
+            wanderTimer -= wanderInterval;
+        }
+        wanderTimer += Time.deltaTime;
+
+        return Seek(wanderPoint + transform.position);
     }
 
     public int GetTeam()

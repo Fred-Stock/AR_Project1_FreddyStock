@@ -5,6 +5,8 @@ using UnityEngine;
 public class Seeker : Agent
 {
 
+    private float followWeight = 3f;
+
     private float shootCooldown = 1f;
     private float cooldownTimer = int.MaxValue;
 
@@ -12,6 +14,8 @@ public class Seeker : Agent
     protected override void OnEnable()
     {
         base.OnEnable();
+        maxSpeed = .2f;
+
         if(TeamManager.GetSeeker() != null)
         {
             GameObject tempSeeker = TeamManager.GetSeeker();
@@ -41,7 +45,7 @@ public class Seeker : Agent
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        Vector3 forceVec = Vector3.zero;
 
         //if (cooldownTimer >= shootCooldown)
         //{
@@ -57,10 +61,31 @@ public class Seeker : Agent
         //}
 
         //rBody.AddForce(Seek(teamGoal.transform.position)*goalWeight, ForceMode.Force);
-        rBody.AddForce(Follow(FindClosestRunner()), ForceMode.Force);
+        if(TeamManager.GetRunners().Count != 0)
+        {
+            forceVec += Follow(FindClosestRunner()) * followWeight;
+
+
+            forceVec.Normalize();
+
+            rBody.AddForce(forceVec, ForceMode.Force);
+
+        }
+
+        float overSpeed = rBody.velocity.magnitude - maxSpeed;
+        if (overSpeed > 0)
+        {
+            rBody.AddForce(-rBody.velocity.normalized * (overSpeed), ForceMode.VelocityChange);
+        }
+
 
         transform.LookAt(transform.position + rBody.velocity);
         Debug.DrawLine(transform.position, transform.position + rBody.velocity, Color.black);
+
+        if (!Physics.Raycast(transform.position, -transform.up))//, out hit))
+        {
+            rBody.velocity = -rBody.velocity;
+        }
 
     }
 
