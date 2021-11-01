@@ -1,10 +1,10 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - ARPlacementBlocking
     - Runner
+    - ScoreText
     - Seeker
-    LunarConsole.dll:
-    - LunarConsolePlugin.LunarConsole
     Unity.InputSystem.dll:
     - UnityEngine.InputSystem.InputActionAsset
     - UnityEngine.InputSystem.InputActionReference
@@ -14,11 +14,6 @@ ScriptsOnlyBuild:
     - UnityEngine.InputSystem.UI.InputSystemUIInputModule
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
-    Unity.TextMeshPro.dll:
-    - TMPro.TMP_FontAsset
-    - TMPro.TMP_Settings
-    - TMPro.TMP_SpriteAsset
-    - TMPro.TMP_StyleSheet
     Unity.XR.ARCore.Editor.dll:
     - UnityEditor.XR.ARCore.ARCoreSettings
     Unity.XR.ARCore.dll:
@@ -36,7 +31,6 @@ ScriptsOnlyBuild:
     - UnityEngine.XR.ARFoundation.ARSessionOrigin
     Unity.XR.Interaction.Toolkit.dll:
     - UnityEngine.XR.Interaction.Toolkit.AR.ARGestureInteractor
-    - UnityEngine.XR.Interaction.Toolkit.AR.ARPlacementInteractable
     - UnityEngine.XR.Interaction.Toolkit.AR.ARSelectionInteractable
     - UnityEngine.XR.Interaction.Toolkit.AR.ARTranslationInteractable
     - UnityEngine.XR.Interaction.Toolkit.XRInteractionManager
@@ -56,6 +50,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.HorizontalLayoutGroup
     - UnityEngine.UI.Image
+    - UnityEngine.UI.Text
   sceneClasses:
     Assets/Scenes/ARTesting.unity:
     - Class: 1
@@ -76,8 +71,6 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
-    - Class: 49
-      Script: {instanceID: 0}
     - Class: 54
       Script: {instanceID: 0}
     - Class: 64
@@ -89,67 +82,61 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1492}
+      Script: {instanceID: 1778}
     - Class: 114
-      Script: {instanceID: 1522}
+      Script: {instanceID: 1810}
     - Class: 114
-      Script: {instanceID: 1642}
+      Script: {instanceID: 1944}
     - Class: 114
-      Script: {instanceID: 1756}
+      Script: {instanceID: 2074}
     - Class: 114
-      Script: {instanceID: 1850}
+      Script: {instanceID: 2594}
     - Class: 114
-      Script: {instanceID: 2226}
+      Script: {instanceID: 3052}
     - Class: 114
-      Script: {instanceID: 2674}
+      Script: {instanceID: 3096}
     - Class: 114
-      Script: {instanceID: 2712}
+      Script: {instanceID: 3212}
     - Class: 114
-      Script: {instanceID: 2818}
+      Script: {instanceID: 3384}
     - Class: 114
-      Script: {instanceID: 3050}
+      Script: {instanceID: 3458}
     - Class: 114
-      Script: {instanceID: 3134}
+      Script: {instanceID: 3540}
     - Class: 114
-      Script: {instanceID: 3450}
+      Script: {instanceID: 3902}
     - Class: 114
-      Script: {instanceID: 3476}
+      Script: {instanceID: 3932}
     - Class: 114
-      Script: {instanceID: 3680}
+      Script: {instanceID: 4146}
     - Class: 114
-      Script: {instanceID: 3692}
+      Script: {instanceID: 4156}
     - Class: 114
-      Script: {instanceID: 3798}
+      Script: {instanceID: 4272}
     - Class: 114
-      Script: {instanceID: 3974}
+      Script: {instanceID: 4466}
     - Class: 114
-      Script: {instanceID: 4212}
+      Script: {instanceID: 4500}
     - Class: 114
-      Script: {instanceID: 4218}
+      Script: {instanceID: 4712}
     - Class: 114
-      Script: {instanceID: 4290}
+      Script: {instanceID: 4718}
     - Class: 114
-      Script: {instanceID: 4308}
+      Script: {instanceID: 4796}
     - Class: 114
-      Script: {instanceID: 4494}
+      Script: {instanceID: 4814}
     - Class: 114
-      Script: {instanceID: 4638}
+      Script: {instanceID: 5026}
     - Class: 114
-      Script: {instanceID: 4710}
+      Script: {instanceID: 5172}
     - Class: 114
-      Script: {instanceID: 4738}
+      Script: {instanceID: 5252}
     - Class: 114
-      Script: {instanceID: 4894}
+      Script: {instanceID: 5842}
     - Class: 114
-      Script: {instanceID: 5262}
+      Script: {instanceID: 6066}
     - Class: 114
-      Script: {instanceID: 5274}
-    - Class: 114
-      Script: {instanceID: 5484}
-    - Class: 114
-      Script: {instanceID: 5838}
-    - Class: 114
-      Script: {instanceID: 42992}
+      Script: {instanceID: 6448}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -485,6 +472,12 @@ ScriptsOnlyBuild:
     className: TextMeshProUGUI
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ScoreText
+  - hash:
+      serializedVersion: 2
       Hash: 1f880cc188f7f5eb5592d4bf4f57fef5
     assemblyName: Unity.XR.Interaction.Toolkit.dll
     namespaceName: UnityEngine.XR.Interaction.Toolkit
@@ -507,12 +500,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: GraphicRaycaster
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Thoughts
   - hash:
       serializedVersion: 2
       Hash: 36998e93d8022e1504427f8fbadd13c1
@@ -539,7 +526,7 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAnimator
   - hash:
       serializedVersion: 2
-      Hash: 09eb30264fb8cf7ca0ceae9f05c37522
+      Hash: 24a7a1a21b0538989b7e825b82a5d66f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Runner
@@ -701,12 +688,6 @@ ScriptsOnlyBuild:
     className: ARAnnotationInteractable
   - hash:
       serializedVersion: 2
-      Hash: 2084038ffb749d8ada1a70f8df8cb3c4
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: TeamGoal
-  - hash:
-      serializedVersion: 2
       Hash: cbe6deff75fc0987595a61e9510f7917
     assemblyName: Unity.XR.ARFoundation.dll
     namespaceName: UnityEngine.XR.ARFoundation
@@ -803,16 +784,16 @@ ScriptsOnlyBuild:
     className: ARTranslationInteractable
   - hash:
       serializedVersion: 2
+      Hash: 52e5e15d074c6311d2a0cd6bada51445
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ARPlacementBlocking
+  - hash:
+      serializedVersion: 2
       Hash: 18c222bef9ae745ce69ddde9b74337ca
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
     className: Physics2DRaycaster
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: TankHitbox
   - hash:
       serializedVersion: 2
       Hash: 98aa0a0c8ff2910eb12af89c7e0eb661
@@ -1223,12 +1204,6 @@ ScriptsOnlyBuild:
     className: ARTrackedImageManager
   - hash:
       serializedVersion: 2
-      Hash: 1b39b5cd27c7a005f3832a529659c3ee
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Bullet
-  - hash:
-      serializedVersion: 2
       Hash: 290afc8da8e459e0b8dc7444bfaf5e35
     assemblyName: Unity.XR.ARFoundation.dll
     namespaceName: UnityEngine.XR.ARFoundation
@@ -1283,35 +1258,11 @@ ScriptsOnlyBuild:
     className: XRUIInputModule
   - hash:
       serializedVersion: 2
-      Hash: befd2230371934534f1aa1fb42602b71
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Tank
-  - hash:
-      serializedVersion: 2
       Hash: afea50d691cd4ee9f45243e58f408572
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Seeker
-  - hash:
-      serializedVersion: 2
-      Hash: dd07b17038ebcad27f14e517325207c9
-    assemblyName: LunarConsole.dll
-    namespaceName: LunarConsolePluginInternal
-    className: LunarConsoleLegacyActions
-  - hash:
-      serializedVersion: 2
-      Hash: 227a3d8968bb3326cf22f13f6db35640
-    assemblyName: LunarConsole.dll
-    namespaceName: LunarConsolePluginInternal
-    className: LunarConsoleAction
-  - hash:
-      serializedVersion: 2
-      Hash: 8c6933f891e37a1646aa495e3c2f1c28
-    assemblyName: LunarConsole.dll
-    namespaceName: LunarConsolePlugin
-    className: LunarConsole
   platform: 13
   scenePathNames:
   - Assets/Scenes/ARTesting.unity
-  playerPath: C:/Users/Diane/Documents/GitHub/AR_Project1_FreddyStock/AR_Project1_FStock/ARTesting.apk
+  playerPath: /home/freddy/Documents/GitHub/AR_Project1_FreddyStock/AR_Project1_FStock/ArTesting.apk

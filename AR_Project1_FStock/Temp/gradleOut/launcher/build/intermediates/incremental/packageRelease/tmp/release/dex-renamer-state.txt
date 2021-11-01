@@ -1,0 +1,4 @@
+#Mon Nov 01 00:07:53 EDT 2021
+base.0=/home/freddy/Documents/GitHub/AR_Project1_FreddyStock/AR_Project1_FStock/Temp/gradleOut/launcher/build/intermediates/dex/release/mergeDexRelease/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Agent : MonoBehaviour
 {
-    //NEED A METHOD TO STAY ON PLANE - PRIMARILY STEER AWAY FROM IT
 
     protected Rigidbody rBody;
     protected BoxCollider bColl;
@@ -14,7 +13,7 @@ public class Agent : MonoBehaviour
     protected GameObject goal;
 
     protected GameObject teamGoal;
-    protected List<GameObject> friendlyTanks; 
+    protected List<GameObject> friendlyTanks;
     protected List<GameObject> enemyTanks;
 
     protected float obstacleDist = .3f;
@@ -35,12 +34,6 @@ public class Agent : MonoBehaviour
         wanderTimer = wanderInterval;//equal to wanderInterval so that the first call of wander will return a vector
         rBody = GetComponent<Rigidbody>();
         bColl = GetComponent<BoxCollider>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     protected Vector3 Seek(Vector3 target)
@@ -75,7 +68,7 @@ public class Agent : MonoBehaviour
         return -Follow(scaryObj);
     }
 
-    
+
     protected Vector3 Wander()
     {
 

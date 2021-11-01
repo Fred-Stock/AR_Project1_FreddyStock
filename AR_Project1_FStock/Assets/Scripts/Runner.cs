@@ -5,41 +5,28 @@ using UnityEngine;
 public class Runner : Agent
 {
 
-    [SerializeField]private float scareDist = .2f;
+    [SerializeField] private GameObject runnerPrefab;
+
+    [SerializeField] private float scareDist = .2f;
     [SerializeField] private float scareWeight = 3f;
 
     private Vector3 wanderVec;
+    private int iteration = 0;
 
     // Start is called before the first frame update
     protected override void OnEnable()
     {
         base.OnEnable();
         transform.rotation = Random.rotation;
-
-        maxSpeed = .1f;
+        maxSpeed = .2f;
         TeamManager.runners.Add(gameObject);
         wanderVec = Wander();
-        //if (team == 1)
-        //{
-        //    TeamManager.team1Tanks.Add(gameObject);
-        //    friendlyTanks = TeamManager.team1Tanks;
-        //    enemyTanks = TeamManager.team2Tanks;
-        //    teamGoal = TeamManager.getTeam1Goal();
-        //}
-        //else
-        //{
-        //    TeamManager.team2Tanks.Add(gameObject);
-        //    friendlyTanks = TeamManager.team2Tanks;
-        //    enemyTanks = TeamManager.team1Tanks;
-        //    teamGoal = TeamManager.getTeam2Goal();
-        //}
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
         Vector3 forceVec = Vector3.zero;
-        //rBody.AddForce(Seek(teamGoal.transform.position)*goalWeight, ForceMode.Force);
 
         wanderVec = Wander();
 
@@ -53,9 +40,7 @@ public class Runner : Agent
         }
 
         transform.LookAt(transform.position + rBody.velocity);
-        //Debug.DrawLine(transform.position, transform.position + rBody.velocity, Color.black);
-        //Debug.DrawLine(transform.position, wanderVec + transform.position, Color.blue);
-        //Debug.DrawLine(transform.position, wanderVec, Color.green);
+
         rBody.AddForce(forceVec, ForceMode.Force);
 
         float overSpeed = rBody.velocity.magnitude - maxSpeed;
@@ -64,11 +49,12 @@ public class Runner : Agent
             rBody.AddForce(-rBody.velocity.normalized * (overSpeed), ForceMode.VelocityChange);
         }
 
-        if(!Physics.Raycast(transform.position, Vector3.down))//, out hit))
+        //keeps runner on the plane
+        if(!Physics.Raycast(transform.position, Vector3.down))
         {
             rBody.velocity = -rBody.velocity;
         }
-        
+
     }
 
     private bool NearSeeker()
@@ -87,8 +73,22 @@ public class Runner : Agent
         if(collision.gameObject.GetComponent<Seeker>() != null)
         {
             TeamManager.RemoveRunner(gameObject);
+            TeamManager.eaten++;
+            if(iteration < 1){
+              for(int i = 0; i < 2; i++){
+                GameObject temp = Instantiate(runnerPrefab, transform.position, Random.rotation);
+                temp.GetComponent<Runner>().SetIteration(iteration+1);
+                temp.transform.localScale /= (iteration + 2);
+              }
+            }
+
             Destroy(gameObject);
+
         }
+    }
+
+    public void SetIteration(int i){
+      this.iteration = i;
     }
 
 }
